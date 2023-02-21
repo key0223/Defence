@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class WaveSpawner : MonoBehaviour
@@ -13,36 +14,36 @@ public class WaveSpawner : MonoBehaviour
 
     private int waveIndex = 0;
 
+    public TextMeshProUGUI waveCountdownText;
+
     private void Awake()
     {
         enemyPooler= FindObjectOfType<EnemyPooler>(); 
     }
 
-    private void Start()
+    private void Update()
     {
-        InvokeRepeating("SpawnEnemy",1f,countdown);
+        if (countdown <= 0f)
+        {
+            StartCoroutine(SpawnWave());
+            countdown = timeBetweenWaves;
+        }
+
+        countdown -= Time.deltaTime;
+        countdown = Mathf.Clamp(countdown, 0f,Mathf.Infinity);
+        waveCountdownText.text = string.Format("{0:00.00}", countdown);
     }
-    //private void Update()
-    //{
-    //    if(countdown <=0f)
-    //    {
-    //        StartCoroutine(SpawnWave());
-    //        countdown = timeBetweenWaves;
-    //    }
 
-    //    countdown -=  Time.deltaTime;
-    //}
+    IEnumerator SpawnWave()
+    {
+        waveIndex++;
 
-    //IEnumerator SpawnWave()
-    //{
-    //    waveIndex++;
-
-    //    for (int i = 0; i < waveIndex; i++)
-    //    {
-    //        SpawnEnemy();
-    //        yield return new WaitForSeconds(0.5f);
-    //    }
-    //}
+        for (int i = 0; i < waveIndex; i++)
+        {
+            SpawnEnemy();
+            yield return new WaitForSeconds(0.5f);
+        }
+    }
 
     public void SpawnEnemy()
     {
@@ -50,7 +51,7 @@ public class WaveSpawner : MonoBehaviour
         enemyGo.transform.position = spawnPoint.position;
         enemyGo.transform.rotation = spawnPoint.rotation;
         enemyGo.SetActive(true);
-       
+
         //Instantiate(enemyPrefab, spawnPoint.position, spawnPoint.rotation);
     }
 }
