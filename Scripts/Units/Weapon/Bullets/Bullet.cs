@@ -7,23 +7,24 @@ public class Bullet : MonoBehaviour
 {
     EnemyPooler enemyPooler;
     WeaponBullet_Pooler weaponBullet_Pooler;
-    WeaponEffectPooler weaponEffectPooler;
+    EffectPooler effectPooler;
 
     public Transform firePoint;
 
     public WeaponBulletType weaponBulletType;
+    public EffectType effectType;
 
     private GameObject target;
-    public float speed = 60f;
-    public float explosionRadius = 0f;
-
-    //public GameObject impactEffect;
+    private GameObject effect;
+    public float damage;
+    public float speed;
+    public float explosionRadius;
 
     private void Awake()
     {
-        enemyPooler= FindObjectOfType<EnemyPooler>();
+        enemyPooler = FindObjectOfType<EnemyPooler>();
         weaponBullet_Pooler = FindObjectOfType<WeaponBullet_Pooler>();
-        weaponEffectPooler= FindObjectOfType<WeaponEffectPooler>();
+        effectPooler = FindObjectOfType<EffectPooler>();
     }
     public void Seek(GameObject _target)
     {
@@ -51,16 +52,16 @@ public class Bullet : MonoBehaviour
         transform.LookAt(target.transform);
     }
 
-    
+
     void HitTarget()
     {
-        //GameObject effectIns = Instantiate(impactEffect, transform.position, transform.rotation);
-        GameObject effectIns = weaponEffectPooler.GetBulletEffect(weaponBulletType);
-        effectIns.transform.position = transform.position;
-        effectIns.transform.rotation = transform.rotation;
-        effectIns.SetActive(true);
-
-        //Destroy(effectIns, 5f);
+        if(effect== null)
+        {
+            effect = effectPooler.GetEffect(effectType);
+            effect.SetActive(true);
+            effect.transform.position = transform.position;
+            effect.transform.rotation = transform.rotation;
+        }
 
         if (explosionRadius > 0f)
         {
@@ -75,10 +76,10 @@ public class Bullet : MonoBehaviour
     }
     void Explode()
     {
-        Collider[] colliders = Physics.OverlapSphere(transform.position,explosionRadius);
-        foreach(Collider collider in colliders)
+        Collider[] colliders = Physics.OverlapSphere(transform.position, explosionRadius);
+        foreach (Collider collider in colliders)
         {
-            if(collider.CompareTag("Enemy"))
+            if (collider.CompareTag("Enemy"))
             {
                 Damage(collider.gameObject);
             }
@@ -87,12 +88,16 @@ public class Bullet : MonoBehaviour
 
     void Damage(GameObject enemy)
     {
-        enemyPooler.ExpiredEnemy(enemy);
+        EnemyStat enemyStat = enemy.GetComponent<EnemyStat>();
+        if (enemyStat != null)
+        {
+            enemyStat.TakeDamege(damage);
+        }
     }
 
     private void OnDrawGizmosSelected()
     {
-        Gizmos.color = Color.red; 
-        Gizmos.DrawWireSphere(transform.position,explosionRadius);
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, explosionRadius);
     }
 }
