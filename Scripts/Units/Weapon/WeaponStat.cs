@@ -8,6 +8,7 @@ public class WeaponStat : MonoBehaviour
 
     public WeaponType weaponType;
     public WeaponBulletType weaponBulletType;
+    public EffectType effectType;
     public Transform firePoint;
     public float fireRate;
 
