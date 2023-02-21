@@ -15,5 +15,6 @@ MonoBehaviour:
   enemyName: enemy_ufoGreen
   prefabPath: enemy_ufoGreen
   enemyType: 0
-  hp: 10
+  effectType: 3
+  hp: 100
   speed: 10
