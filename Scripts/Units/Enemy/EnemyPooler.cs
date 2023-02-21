@@ -39,6 +39,7 @@ public class EnemyPooler : MonoBehaviour
 
                 EnemyStat enemyStat = enemyGo.GetComponent<EnemyStat>();
                 enemyStat.enemyType = enemyDatas[i].enemyType;
+                enemyStat.effectType = enemyDatas[i].effectType;
                 enemyStat.hp = enemyDatas[i].hp;
                 enemyStat.speed = enemyDatas[i].speed;
 

@@ -1,15 +1,25 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Xml.Serialization;
 using UnityEngine;
 
 public class EnemyMovement : MonoBehaviour
 {
-    public float speed = 10f;
+    EnemyPooler enemyPooler;
+    EnemyStat enemyStat;
+
+    private float speed;
     private Transform target;
     private int wavepointIndex = 0;
 
+    private void Awake()
+    {
+        enemyPooler= FindObjectOfType<EnemyPooler>();
+        enemyStat= GetComponent<EnemyStat>();
+    }
     private void Start()
     {
+        speed = enemyStat.speed;
         target = Waypoints.points[0];
     }
 
@@ -22,7 +32,6 @@ public class EnemyMovement : MonoBehaviour
         {
             GetNextWaypoint();
         }
-
     }
 
     void GetNextWaypoint()
@@ -30,7 +39,8 @@ public class EnemyMovement : MonoBehaviour
 
         if(wavepointIndex >= Waypoints.points.Length -1)
         {
-            Destroy(gameObject);
+            EndPath();
+            //Destroy(gameObject);
             return;
         }
         wavepointIndex++;
@@ -41,5 +51,11 @@ public class EnemyMovement : MonoBehaviour
     {
         wavepointIndex = 0;
         target = Waypoints.points[0];
+    }
+
+    void EndPath()
+    {
+        PlayerStats.lives--;
+        enemyPooler.ExpiredEnemy(gameObject);
     }
 }
