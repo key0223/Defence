@@ -16,5 +16,5 @@ MonoBehaviour:
   prefabPath: weapon_ballista
   iconPath: Icon/weapon_ballista
   weaponType: 0
-  weaponBulletData: {fileID: 11400000, guid: c0182384960394b4281d581a273487cf, type: 2}
+  weaponBulletData: {fileID: 11400000, guid: f0cac318c834a4a46895ea7abc7c07e8, type: 2}
   fireRate: 1
