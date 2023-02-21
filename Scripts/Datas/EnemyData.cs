@@ -12,6 +12,8 @@ public class EnemyData : ScriptableObject
     [SerializeField]
     public EnemyType enemyType;
     [SerializeField]
+    public EffectType effectType;
+    [SerializeField]
     public float hp;
     [SerializeField]
     public float speed;
