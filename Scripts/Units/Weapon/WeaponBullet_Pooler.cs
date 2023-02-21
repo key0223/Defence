@@ -40,9 +40,11 @@ public class WeaponBullet_Pooler : MonoBehaviour
 
                 Bullet bullet = weaponBulletGO.GetComponent<Bullet>();
                 bullet.weaponBulletType = weaponBulletDatas[i].weaponBulletType;
+                bullet.effectType= weaponBulletDatas[i].effectType;
+                bullet.damage = weaponBulletDatas[i].damage;
                 bullet.speed = weaponBulletDatas[i].speed;
                 bullet.explosionRadius = weaponBulletDatas[i].explosionRadius;
-
+                
                 weaponBulletGO.gameObject.SetActive(false);
                 weaponBulletQueue[(int)weaponBulletDatas[i].weaponBulletType].Enqueue(weaponBulletGO);
             }
