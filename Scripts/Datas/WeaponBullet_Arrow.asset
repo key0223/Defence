@@ -15,5 +15,7 @@ MonoBehaviour:
   weaponBulletName: arrow
   prefabPath: Bullets/arrow
   weaponBulletType: 0
+  effectType: 0
+  damage: 50
   speed: 60
   explosionRadius: 0
