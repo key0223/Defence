@@ -12,6 +12,10 @@ public class WeaponBulletData : ScriptableObject
     [SerializeField]
     public WeaponBulletType weaponBulletType;
     [SerializeField]
+    public EffectType effectType;
+    [SerializeField]
+    public float damage;
+    [SerializeField]
     public float speed;
     [SerializeField]
     public float explosionRadius;
