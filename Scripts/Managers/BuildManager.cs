@@ -6,6 +6,7 @@ public class BuildManager : MonoBehaviour
 {
     public static BuildManager Instance;
     Weapon_Pooler weaponPooler;
+    EffectPooler effectPooler;
 
     ShopItem shopItem;
     WeaponType currentWeaponType;
@@ -23,11 +24,17 @@ public class BuildManager : MonoBehaviour
         else
             Destroy(Instance);
         weaponPooler = FindObjectOfType<Weapon_Pooler>();
+        effectPooler= FindObjectOfType<EffectPooler>();
+        currentWeaponType = WeaponType.WEAPON_NONE;
     }
 
     public bool CanBuild { get { return currentWeaponType != WeaponType.WEAPON_NONE; } }
+    public bool HasMoney { get { return PlayerStats.money >= shopItem.cost; } }
     public void BuildTurretOn(Node node)
     {
+        if (currentWeaponType == WeaponType.WEAPON_NONE)
+            return;
+
         if(PlayerStats.money <shopItem.cost)
         {
             Debug.Log("Not enough money to build ");
@@ -41,14 +48,14 @@ public class BuildManager : MonoBehaviour
 
         node.turret = selectedGO;
 
+        GameObject effect = effectPooler.GetEffect(EffectType.EFFECT_BUILDTURRET);
+        effect.transform.position = node.GetBuildPosition();
+        effect.transform.rotation = Quaternion.identity;
+        effect.SetActive(true);
+
         Debug.Log("Turret build! Money left: "+ PlayerStats.money);
     }
-    /*
-    public WeaponType GetTurretToBuild()
-    {
-        return currentWeaponType;
-    }
-    */
+    
     public void SetTurretToBuild(ShopItem shopItem)
     {
         this.shopItem = shopItem;
