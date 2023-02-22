@@ -20,6 +20,12 @@ public class Attack : MonoBehaviour
         get { return fireRate; }
         set { fireRate = value; }
     }
+    private WeaponType weaponType;
+    public WeaponType WeaponType
+    {
+        get { return weaponType; }
+        set { weaponType = value; }
+    }
 
     private WeaponBulletType weaponBulletType;
     public WeaponBulletType WeaponBulletType
@@ -27,6 +33,8 @@ public class Attack : MonoBehaviour
         get { return weaponBulletType; }
         set { weaponBulletType= value; }
     }
+
+   
     private float fireCountdown = 0f;
 
     private void Awake()

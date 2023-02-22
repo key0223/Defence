@@ -6,6 +6,7 @@ public enum WeaponBulletType
 {
     WEAPONBULLET_ARROW,
     WEAPONBULLET_BULLET,
+    WEAPONBULLET_LASER,
     WEAPONBULLET_MAX,
 }
 public class WeaponBullet_Pooler : MonoBehaviour
@@ -26,6 +27,7 @@ public class WeaponBullet_Pooler : MonoBehaviour
     {
         weaponBulletQueue[(int)WeaponBulletType.WEAPONBULLET_ARROW] = new Queue<GameObject>();
         weaponBulletQueue[(int)WeaponBulletType.WEAPONBULLET_BULLET]= new Queue<GameObject>();
+        weaponBulletQueue[(int)WeaponBulletType.WEAPONBULLET_LASER] = new Queue<GameObject>();
 
         GameObject[] bulletGO = new GameObject[weaponBulletQueue.Length];
 

@@ -6,6 +6,7 @@ public enum WeaponType
 {
     WEAPON_BALLISTA,
     WEAPON_BLASTER,
+    WEAPON_LASER_BEAMER,
     WEAPON_CANNON,
     WEAPON_CATAPULT,
     WEAPON_MAX,
@@ -29,24 +30,32 @@ public class Weapon_Pooler : MonoBehaviour
     {
         weaponQueue[(int)WeaponType.WEAPON_BALLISTA] = new Queue<GameObject>();
         weaponQueue[(int)WeaponType.WEAPON_BLASTER] = new Queue<GameObject>();
+        weaponQueue[(int)WeaponType.WEAPON_LASER_BEAMER] = new Queue<GameObject>();
 
-        GameObject[] weaponGO = new GameObject[weaponQueue.Length];
+        GameObject[] turretParentGO = new GameObject[weaponQueue.Length];
 
         for (int i = 0; i < weaponDatas.Length; i++)
         {
-            weaponGO[i] = new GameObject { name = weaponDatas[i].name };
-            weaponGO[i].transform.parent = transform;
+            turretParentGO[i] = new GameObject { name = weaponDatas[i].name };
+            turretParentGO[i].transform.parent = transform;
 
             for (int j = 0; j < maxWeapon; j++)
             {
-                GameObject newWeapon = ResourceManager.Instance.Instantiate(weaponDatas[i].prefabPath, weaponGO[i].transform);
+                GameObject newTurret = ResourceManager.Instance.Instantiate(weaponDatas[i].prefabPath, turretParentGO[i].transform);
 
-                WeaponStat weaponStat = newWeapon.GetComponent<WeaponStat>();
-                weaponStat.weaponType = weaponDatas[i].weaponType;
-                weaponStat.weaponBulletType = weaponDatas[i].weaponBulletData.weaponBulletType;
-                weaponStat.fireRate= weaponDatas[i].fireRate;
-                newWeapon.gameObject.SetActive(false);
-                weaponQueue[(int)weaponDatas[i].weaponType].Enqueue(newWeapon);
+                Turret turret = newTurret.GetComponent<Turret>();
+
+                turret.weaponType= weaponDatas[i].weaponType;
+                turret.range = weaponDatas[i].range;
+                turret.turnSpeed= weaponDatas[i].turnSpeed;
+
+                turret.weaponBulletType= weaponDatas[i].weaponBulletType;
+                turret.effectType= weaponDatas[i].effectType;
+                turret.fireRate= weaponDatas[i].fireRate;
+                turret.useLaser= weaponDatas[i].useLaser;
+
+                newTurret.SetActive(false);
+                weaponQueue[(int)weaponDatas[i].weaponType].Enqueue(newTurret);
             }
         }
     }

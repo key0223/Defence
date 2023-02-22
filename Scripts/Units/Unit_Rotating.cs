@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Unit_Rotating : MonoBehaviour
 {
+    WeaponType weaponType;
     public GameObject target { get; set; }
 
     public Transform partToRotate;
@@ -13,10 +14,15 @@ public class Unit_Rotating : MonoBehaviour
         if (target == null)
             return;
 
+        LockOnTarget();
+    }
+
+    void LockOnTarget()
+    {
         Vector3 dir = target.transform.position - transform.position;
         Quaternion lookRotation = Quaternion.LookRotation(dir);
 
-        Vector3 rotation = Quaternion.Lerp(partToRotate.rotation,lookRotation,Time.deltaTime* turnSpeed).eulerAngles;
-        partToRotate.rotation = Quaternion.Euler(0f,rotation.y,0f);
+        Vector3 rotation = Quaternion.Lerp(partToRotate.rotation, lookRotation, Time.deltaTime * turnSpeed).eulerAngles;
+        partToRotate.rotation = Quaternion.Euler(0f, rotation.y, 0f);
     }
 }

@@ -22,6 +22,7 @@ public class WeaponStat : MonoBehaviour
     {
         attack.FirePonint = firePoint;
         attack.FireRate = fireRate;
+        attack.WeaponType = weaponType;
         attack.WeaponBulletType = weaponBulletType;
         attack.FireRate = fireRate;
         
