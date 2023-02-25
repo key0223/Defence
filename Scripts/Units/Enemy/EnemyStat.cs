@@ -9,8 +9,14 @@ public class EnemyStat : MonoBehaviour
     public EnemyType enemyType;
     public EffectType effectType;
     public float hp = 100f;
+    public float startSpeed = 10f;
+    [HideInInspector]
     public float speed;
 
+    private void Start()
+    {
+       startSpeed = speed;
+    }
     private void Awake()
     {
         enemyPooler= FindObjectOfType<EnemyPooler>();
@@ -27,7 +33,10 @@ public class EnemyStat : MonoBehaviour
         }
 
     }
-
+    public void Slow(float amount)
+    {
+        startSpeed = speed * (1f - amount);
+    }
      void Die()
     {
         GameObject deathEffect = effectPooler.GetEffect(effectType);

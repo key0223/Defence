@@ -27,7 +27,6 @@ public class WeaponBullet_Pooler : MonoBehaviour
     {
         weaponBulletQueue[(int)WeaponBulletType.WEAPONBULLET_ARROW] = new Queue<GameObject>();
         weaponBulletQueue[(int)WeaponBulletType.WEAPONBULLET_BULLET]= new Queue<GameObject>();
-        weaponBulletQueue[(int)WeaponBulletType.WEAPONBULLET_LASER] = new Queue<GameObject>();
 
         GameObject[] bulletGO = new GameObject[weaponBulletQueue.Length];
 

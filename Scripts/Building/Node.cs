@@ -35,14 +35,15 @@ public class Node : MonoBehaviour
         if (EventSystem.current.IsPointerOverGameObject())
             return;
 
-        if (!buildManager.CanBuild)
-            return;
+       
 
         if (turret != null)
         {
-            Debug.Log("Cant build there! - ");
+            buildManager.SelectNode(this);
             return;
         }
+        if (!buildManager.CanBuild)
+            return;
 
         buildManager.BuildTurretOn(this);
         /*

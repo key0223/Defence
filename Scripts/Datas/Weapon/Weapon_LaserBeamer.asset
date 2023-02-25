@@ -17,7 +17,7 @@ MonoBehaviour:
   iconPath: Icon/weapon_laserBeamer
   weaponType: 2
   range: 10
-  turnSpeed: 0
+  turnSpeed: 10
   weaponBulletType: 2
   effectType: 0
   fireRate: 2
