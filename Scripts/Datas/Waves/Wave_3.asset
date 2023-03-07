@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Wave_3
   m_EditorClassIdentifier: 
   enemy: 2
-  count: 3
+  count: 2
   rate: 3

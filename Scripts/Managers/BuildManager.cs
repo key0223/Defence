@@ -25,6 +25,7 @@ public class BuildManager : MonoBehaviour
         }
         else
             Destroy(Instance);
+
         weaponPooler = FindObjectOfType<Weapon_Pooler>();
         effectPooler = FindObjectOfType<EffectPooler>();
         nodeUI = FindObjectOfType<NodeUI>();
@@ -33,6 +34,8 @@ public class BuildManager : MonoBehaviour
 
     public bool CanBuild { get { return currentWeaponType != WeaponType.WEAPON_NONE; } }
     public bool HasMoney { get { return PlayerStats.money >= shopItem.cost; } }
+
+    /*
     public void BuildTurretOn(Node node)
     {
         if (currentWeaponType == WeaponType.WEAPON_NONE)
@@ -58,6 +61,7 @@ public class BuildManager : MonoBehaviour
 
         Debug.Log("Turret build! Money left: " + PlayerStats.money);
     }
+    */
     public void SelectNode(Node node)
     {
         if(selectedNode == node)
@@ -70,7 +74,7 @@ public class BuildManager : MonoBehaviour
 
         nodeUI.SetTarget(node);
     }
-
+    
     public void  DeselectNode()
     {
         selectedNode= null;
@@ -82,5 +86,9 @@ public class BuildManager : MonoBehaviour
         currentWeaponType = shopItem.weaponType;
 
         DeselectNode();
+    }
+    public ShopItem GetTurretToBuild()
+    {
+        return shopItem;
     }
 }

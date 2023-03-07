@@ -21,17 +21,24 @@ public class WaveSpawner : MonoBehaviour
 
     public TextMeshProUGUI waveCountdownText;
 
+    public GameManager gameManager;
     private void Awake()
     {
-        enemyPooler= FindObjectOfType<EnemyPooler>(); 
+        enemyPooler = FindObjectOfType<EnemyPooler>();
     }
 
     private void Update()
     {
-        if(EnemiesAlive >0)
+        if (EnemiesAlive > 0)
         {
             return;
         }
+        if (waveIndex == waves.Length)
+        {
+            gameManager.WinLevel();
+            this.enabled = false;
+        }
+
         if (countdown <= 0f)
         {
             StartCoroutine(SpawnWave());
@@ -40,7 +47,7 @@ public class WaveSpawner : MonoBehaviour
         }
 
         countdown -= Time.deltaTime;
-        countdown = Mathf.Clamp(countdown, 0f,Mathf.Infinity);
+        countdown = Mathf.Clamp(countdown, 0f, Mathf.Infinity);
         waveCountdownText.text = string.Format("{0:00.00}", countdown);
     }
 
@@ -50,17 +57,17 @@ public class WaveSpawner : MonoBehaviour
 
         Wave wave = waves[waveIndex];
 
+        EnemiesAlive = wave.count;
+
         for (int i = 0; i < wave.count; i++)
         {
             SpawnEnemy(wave.enemy);
-            yield return new WaitForSeconds(1f/wave.rate);
+            yield return new WaitForSeconds(1f / wave.rate);
         }
+
         waveIndex++;
-        if (waveIndex == waves.Length)
-        {
-            Debug.Log("Level Won");
-            this.enabled = false;
-        }
+
+       
     }
 
     public void SpawnEnemy(EnemyType enemy)
@@ -69,9 +76,5 @@ public class WaveSpawner : MonoBehaviour
         enemyGo.transform.position = spawnPoint.position;
         enemyGo.transform.rotation = spawnPoint.rotation;
         enemyGo.SetActive(true);
-
-        EnemiesAlive++;
-
-        //Instantiate(enemyPrefab, spawnPoint.position, spawnPoint.rotation);
     }
 }

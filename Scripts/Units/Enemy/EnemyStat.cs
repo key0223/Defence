@@ -20,6 +20,8 @@ public class EnemyStat : MonoBehaviour
     [SerializeField]
     private float hp;
 
+    private bool isDead = false;
+
     private void Start()
     {
         speed = startSpeed;
@@ -35,7 +37,7 @@ public class EnemyStat : MonoBehaviour
         hp -= amount;
         healthBar.fillAmount = hp / startHp;
 
-        if (hp <= 0)
+        if (hp <= 0 && !isDead)
         {
             Die();
         }
@@ -47,6 +49,8 @@ public class EnemyStat : MonoBehaviour
     }
      void Die()
     {
+        isDead= true;
+
         GameObject deathEffect = effectPooler.GetEffect(effectType);
         deathEffect.transform.position = transform.position;
         deathEffect.transform.rotation = Quaternion.identity;
