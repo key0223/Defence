@@ -15,6 +15,8 @@ public class ShopItem : MonoBehaviour
     [SerializeField]
     public int cost;
     [SerializeField]
+    public float upgradeCost;
+    [SerializeField]
     TextMeshProUGUI costText;
 
     private void Awake()
@@ -29,6 +31,10 @@ public class ShopItem : MonoBehaviour
     public void ItemClicked()
     {
         shop.Selected(this);
+    }
+    public float GetSellAmount()
+    {
+        return cost / 2;
     }
 
 }

@@ -18,4 +18,15 @@ public class NodeUI : MonoBehaviour
     {
         ui.SetActive(false);
     }
+    public void Upgrade()
+    {
+        target.UpgradeTurret();
+        BuildManager.Instance.DeselectNode();
+    }
+
+    public void Sell()
+    {
+        target.SellTurret();
+        BuildManager.Instance.DeselectNode();
+    }
 }

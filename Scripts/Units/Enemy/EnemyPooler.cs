@@ -6,6 +6,8 @@ using UnityEngine;
 public enum EnemyType
 {
     ENEMY_UFO_GREEN,
+    ENEMY_UFO_PURPLE,
+    ENEMY_UFO_RED,
     ENEMY_MAX,
 }
 public class EnemyPooler : MonoBehaviour
@@ -25,6 +27,8 @@ public class EnemyPooler : MonoBehaviour
     public void CreateEnemyPool()
     {
         enemyQueue[(int)EnemyType.ENEMY_UFO_GREEN] = new Queue<GameObject>();
+        enemyQueue[(int)EnemyType.ENEMY_UFO_PURPLE] = new Queue<GameObject>();
+        enemyQueue[(int)EnemyType.ENEMY_UFO_RED] = new Queue<GameObject>();
 
         GameObject[] go = new GameObject[enemyQueue.Length];
 
@@ -40,8 +44,8 @@ public class EnemyPooler : MonoBehaviour
                 EnemyStat enemyStat = enemyGo.GetComponent<EnemyStat>();
                 enemyStat.enemyType = enemyDatas[i].enemyType;
                 enemyStat.effectType = enemyDatas[i].effectType;
-                enemyStat.hp = enemyDatas[i].hp;
-                enemyStat.speed = enemyDatas[i].speed;
+                enemyStat.startHp = enemyDatas[i].hp;
+                enemyStat.startSpeed = enemyDatas[i].speed;
 
                 enemyGo.gameObject.SetActive(false);
                 enemyQueue[(int)enemyDatas[i].enemyType].Enqueue(enemyGo);

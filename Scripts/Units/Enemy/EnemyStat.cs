@@ -1,21 +1,29 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class EnemyStat : MonoBehaviour
 {
     EnemyPooler enemyPooler;
     EffectPooler effectPooler;
+
+    [Header("Info")]
     public EnemyType enemyType;
     public EffectType effectType;
-    public float hp = 100f;
-    public float startSpeed = 10f;
     [HideInInspector]
+    public float startHp = 100f;
+    [HideInInspector]
+    public float startSpeed = 10f;
+    public Image healthBar;
     public float speed;
+    [SerializeField]
+    private float hp;
 
     private void Start()
     {
-       startSpeed = speed;
+        speed = startSpeed;
+        hp = startHp;
     }
     private void Awake()
     {
@@ -24,10 +32,10 @@ public class EnemyStat : MonoBehaviour
     }
     public void TakeDamege(float amount)
     {
-        Debug.Log("Take Damage");
         hp -= amount;
+        healthBar.fillAmount = hp / startHp;
 
-        if(hp <= 0)
+        if (hp <= 0)
         {
             Die();
         }
@@ -35,7 +43,7 @@ public class EnemyStat : MonoBehaviour
     }
     public void Slow(float amount)
     {
-        startSpeed = speed * (1f - amount);
+        speed = startSpeed * (1f - amount);
     }
      void Die()
     {
@@ -43,6 +51,8 @@ public class EnemyStat : MonoBehaviour
         deathEffect.transform.position = transform.position;
         deathEffect.transform.rotation = Quaternion.identity;
         deathEffect.SetActive(true);
+
+        WaveSpawner.EnemiesAlive--;
 
         enemyPooler.ExpiredEnemy(gameObject);
     }

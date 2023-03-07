@@ -16,6 +16,16 @@ MonoBehaviour:
   prefabPath: Bullets/arrow
   weaponBulletType: 0
   effectType: 0
-  damage: 50
-  speed: 60
-  explosionRadius: 0
+  bulletLevels:
+  - damage: 30
+    speed: 30
+    explosionRadius: 0
+  - damage: 35
+    speed: 30
+    explosionRadius: 0
+  - damage: 40
+    speed: 30
+    explosionRadius: 0
+  - damage: 45
+    speed: 30
+    explosionRadius: 0

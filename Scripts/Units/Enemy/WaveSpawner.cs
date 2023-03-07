@@ -5,7 +5,12 @@ using UnityEngine;
 
 public class WaveSpawner : MonoBehaviour
 {
-    EnemyType enemyType = EnemyType.ENEMY_UFO_GREEN;
+    public static int EnemiesAlive = 0;
+
+    [SerializeField]
+    public Wave[] waves;
+
+    //EnemyType enemyType = EnemyType.ENEMY_UFO_GREEN;
     EnemyPooler enemyPooler;
     public Transform spawnPoint;
 
@@ -23,10 +28,15 @@ public class WaveSpawner : MonoBehaviour
 
     private void Update()
     {
+        if(EnemiesAlive >0)
+        {
+            return;
+        }
         if (countdown <= 0f)
         {
             StartCoroutine(SpawnWave());
             countdown = timeBetweenWaves;
+            return;
         }
 
         countdown -= Time.deltaTime;
@@ -36,22 +46,31 @@ public class WaveSpawner : MonoBehaviour
 
     IEnumerator SpawnWave()
     {
-        waveIndex++;
         PlayerStats.rounds++;
 
-        for (int i = 0; i < waveIndex; i++)
+        Wave wave = waves[waveIndex];
+
+        for (int i = 0; i < wave.count; i++)
         {
-            SpawnEnemy();
-            yield return new WaitForSeconds(0.5f);
+            SpawnEnemy(wave.enemy);
+            yield return new WaitForSeconds(1f/wave.rate);
+        }
+        waveIndex++;
+        if (waveIndex == waves.Length)
+        {
+            Debug.Log("Level Won");
+            this.enabled = false;
         }
     }
 
-    public void SpawnEnemy()
+    public void SpawnEnemy(EnemyType enemy)
     {
-        GameObject enemyGo = enemyPooler.GetEnemy(enemyType);
+        GameObject enemyGo = enemyPooler.GetEnemy(enemy);
         enemyGo.transform.position = spawnPoint.position;
         enemyGo.transform.rotation = spawnPoint.rotation;
         enemyGo.SetActive(true);
+
+        EnemiesAlive++;
 
         //Instantiate(enemyPrefab, spawnPoint.position, spawnPoint.rotation);
     }

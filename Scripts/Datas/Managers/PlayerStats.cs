@@ -1,0 +1,23 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class PlayerStats : MonoBehaviour
+{
+    public static float money;
+    public float startMoney;
+
+    public static int lives;
+    public int startLives = 20;
+
+    public static int rounds = 0;
+
+    private void Start()
+    {
+        money = startMoney;
+        lives= startLives;
+
+        rounds = 0;
+    }
+
+}

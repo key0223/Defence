@@ -71,4 +71,10 @@ public class Weapon_Pooler : MonoBehaviour
         }
         return null;
     }
+    public void ExpiredTurret(GameObject weaponGo)
+    {
+        Turret turret = weaponGo.GetComponent<Turret>();
+        weaponQueue[(int)turret.weaponType].Enqueue(weaponGo);
+        weaponGo.SetActive(false);
+    }
 }

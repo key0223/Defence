@@ -16,6 +16,16 @@ MonoBehaviour:
   prefabPath: Bullets/Bullet
   weaponBulletType: 1
   effectType: 1
-  damage: 70
-  speed: 30
-  explosionRadius: 8
+  bulletLevels:
+  - damage: 50
+    speed: 20
+    explosionRadius: 8
+  - damage: 55
+    speed: 20
+    explosionRadius: 8
+  - damage: 60
+    speed: 20
+    explosionRadius: 8
+  - damage: 65
+    speed: 20
+    explosionRadius: 8

@@ -18,10 +18,16 @@ public class Turret : MonoBehaviour
     [SerializeField]
     protected Transform partToRotate;
     public float turnSpeed;
+    public int upgradedCount = 0;
+
 
     [Header("Bullet Info")]
     public WeaponBulletType weaponBulletType;
     public EffectType effectType;
+    public float damage;
+    public float speed;
+    public float explosionRadius;
+
     [SerializeField]
     protected Transform firePoint;
     public float fireRate;
@@ -30,7 +36,7 @@ public class Turret : MonoBehaviour
     [Header("Laser")]
     public bool useLaser;
 
-    public float damageOverTime= 30f;
+    public float damageOverTime = 30f;
     public float slowPct = 0.5f;
 
     public LineRenderer lineRenderer;
@@ -119,8 +125,7 @@ public class Turret : MonoBehaviour
 
     void Laser()
     {
-
-       targetStat.TakeDamege(damageOverTime *Time.deltaTime);
+        targetStat.TakeDamege(damageOverTime * Time.deltaTime);
         targetStat.Slow(slowPct);
         if (!lineRenderer.enabled)
         {
@@ -142,11 +147,14 @@ public class Turret : MonoBehaviour
     protected void Shoot()
     {
         GameObject bulletGO = weaponBulletPooler.GetWeaponBullet(weaponBulletType);
+        Bullet bullet = bulletGO.GetComponent<Bullet>();
+        bullet.damage = weaponBulletPooler.weaponBulletDatas[(int)weaponBulletType].bulletLevels[upgradedCount].damage;
+        bullet.speed = weaponBulletPooler.weaponBulletDatas[(int)weaponBulletType].bulletLevels[upgradedCount].speed;
+        bullet.explosionRadius = weaponBulletPooler.weaponBulletDatas[(int)weaponBulletType].bulletLevels[upgradedCount].explosionRadius;
+
         bulletGO.SetActive(true);
         bulletGO.transform.position = firePoint.position;
         bulletGO.transform.rotation = firePoint.rotation;
-
-        Bullet bullet = bulletGO.GetComponent<Bullet>();
 
         if (bullet != null)
             bullet.Seek(target);

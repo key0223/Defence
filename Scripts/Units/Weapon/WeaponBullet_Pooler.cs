@@ -14,7 +14,7 @@ public class WeaponBullet_Pooler : MonoBehaviour
     Queue<GameObject>[] weaponBulletQueue = new Queue<GameObject>[(int)WeaponBulletType.WEAPONBULLET_MAX];
 
     [SerializeField]
-    WeaponBulletData[] weaponBulletDatas;
+    public WeaponBulletData[] weaponBulletDatas;
     [SerializeField]
     int maxWeaponBullet = 10;
 
@@ -26,14 +26,14 @@ public class WeaponBullet_Pooler : MonoBehaviour
     public void CreatWeaponBulletPool()
     {
         weaponBulletQueue[(int)WeaponBulletType.WEAPONBULLET_ARROW] = new Queue<GameObject>();
-        weaponBulletQueue[(int)WeaponBulletType.WEAPONBULLET_BULLET]= new Queue<GameObject>();
+        weaponBulletQueue[(int)WeaponBulletType.WEAPONBULLET_BULLET] = new Queue<GameObject>();
 
         GameObject[] bulletGO = new GameObject[weaponBulletQueue.Length];
 
         for (int i = 0; i < weaponBulletDatas.Length; i++)
         {
             bulletGO[i] = new GameObject { name = weaponBulletDatas[i].name };
-            bulletGO[i].transform.parent= transform;
+            bulletGO[i].transform.parent = transform;
 
             for (int j = 0; j < maxWeaponBullet; j++)
             {
@@ -41,11 +41,11 @@ public class WeaponBullet_Pooler : MonoBehaviour
 
                 Bullet bullet = weaponBulletGO.GetComponent<Bullet>();
                 bullet.weaponBulletType = weaponBulletDatas[i].weaponBulletType;
-                bullet.effectType= weaponBulletDatas[i].effectType;
-                bullet.damage = weaponBulletDatas[i].damage;
-                bullet.speed = weaponBulletDatas[i].speed;
-                bullet.explosionRadius = weaponBulletDatas[i].explosionRadius;
-                
+                bullet.effectType = weaponBulletDatas[i].effectType;
+                bullet.damage = weaponBulletDatas[i].bulletLevels[i].damage;
+                bullet.speed = weaponBulletDatas[i].bulletLevels[i].speed;
+                bullet.explosionRadius = weaponBulletDatas[i].bulletLevels[i].explosionRadius;
+
                 weaponBulletGO.gameObject.SetActive(false);
                 weaponBulletQueue[(int)weaponBulletDatas[i].weaponBulletType].Enqueue(weaponBulletGO);
             }

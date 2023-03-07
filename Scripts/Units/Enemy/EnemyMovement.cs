@@ -19,7 +19,7 @@ public class EnemyMovement : MonoBehaviour
     }
     private void Start()
     {
-        speed = enemyStat.speed;
+        speed = enemyStat.startSpeed;
         target = Waypoints.points[0];
     }
 
@@ -58,6 +58,8 @@ public class EnemyMovement : MonoBehaviour
     void EndPath()
     {
         PlayerStats.lives--;
+        WaveSpawner.EnemiesAlive--;
+
         enemyPooler.ExpiredEnemy(gameObject);
     }
 }
