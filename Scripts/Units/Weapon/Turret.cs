@@ -1,33 +1,39 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
+using UnityEngine.UI;
 using static UnityEngine.GraphicsBuffer;
 
 public class Turret : MonoBehaviour
 {
-    WeaponBullet_Pooler weaponBulletPooler;
+    [SerializeField]
+    Node node;
+    BulletPooler bulletPooler;
+    TurretPooler turretPooler;
     EnemyStat targetStat;
 
     [SerializeField]
     protected GameObject target;
 
     [Header("Turret Info")]
-    public WeaponType weaponType;
+    public TurretType turretType;
     public float range;
     [SerializeField]
     protected Transform partToRotate;
+    [HideInInspector]
+    public float startHp = 100f;
+    [SerializeField]
+    private float hp;
+    public Image healthBar;
+    private bool isDead = false;
     public float turnSpeed;
     public int upgradedCount = 0;
 
 
     [Header("Bullet Info")]
-    public WeaponBulletType weaponBulletType;
-    public EffectType effectType;
-    public float damage;
-    public float speed;
-    public float explosionRadius;
-
+    public TurretBulletType turretBulletType;
+    public TurretEffectType effectType;
+    
     [SerializeField]
     protected Transform firePoint;
     public float fireRate;
@@ -48,10 +54,15 @@ public class Turret : MonoBehaviour
 
     protected void Awake()
     {
-        weaponBulletPooler = FindObjectOfType<WeaponBullet_Pooler>();
+        node = FindObjectOfType<Node>();
+        bulletPooler = FindObjectOfType<BulletPooler>();
+        turretPooler = FindObjectOfType<TurretPooler>();
     }
+   
     protected void Start()
     {
+        hp = startHp;
+
         InvokeRepeating("UpdateTarget", 0f, 0.5f);
     }
     protected void Update()
@@ -146,11 +157,8 @@ public class Turret : MonoBehaviour
 
     protected void Shoot()
     {
-        GameObject bulletGO = weaponBulletPooler.GetWeaponBullet(weaponBulletType);
-        Bullet bullet = bulletGO.GetComponent<Bullet>();
-        bullet.damage = weaponBulletPooler.weaponBulletDatas[(int)weaponBulletType].bulletLevels[upgradedCount].damage;
-        bullet.speed = weaponBulletPooler.weaponBulletDatas[(int)weaponBulletType].bulletLevels[upgradedCount].speed;
-        bullet.explosionRadius = weaponBulletPooler.weaponBulletDatas[(int)weaponBulletType].bulletLevels[upgradedCount].explosionRadius;
+        GameObject bulletGO = bulletPooler.GetTurretBullet(turretBulletType);
+        TurretBullet bullet = bulletGO.GetComponent<TurretBullet>();
 
         bulletGO.SetActive(true);
         bulletGO.transform.position = firePoint.position;
@@ -160,10 +168,31 @@ public class Turret : MonoBehaviour
             bullet.Seek(target);
     }
 
+    public void TakeDamage(float amount)
+    {
+        hp -= amount;
+        healthBar.fillAmount = hp / startHp;
+
+        if(hp <=0 && !isDead)
+        {
+            isDead = true;
+
+            node.DieTurret(gameObject);
+            TurretInit();
+        }
+    }
+
+    void TurretInit()
+    {
+        isDead = false;
+        hp = startHp;
+        upgradedCount = 0;
+    }
+    
+
     protected void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, range);
     }
-
 }

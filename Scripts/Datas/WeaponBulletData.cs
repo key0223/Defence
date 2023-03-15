@@ -21,9 +21,9 @@ public class WeaponBulletData : ScriptableObject
     [SerializeField]
     public string prefabPath;
     [SerializeField]
-    public WeaponBulletType weaponBulletType;
+    public TurretBulletType turretBulletType;
     [SerializeField]
-    public EffectType effectType;
+    public TurretEffectType effectType;
     [SerializeField]
     public BulletLevel[] bulletLevels;
 }

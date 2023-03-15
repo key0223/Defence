@@ -7,7 +7,7 @@ public class Effect : MonoBehaviour
 {
     EffectPooler effectPooler;
 
-    public EffectType effectType;
+    public TurretEffectType effectType;
 
     private void Awake()
     {
@@ -21,6 +21,6 @@ public class Effect : MonoBehaviour
 
     void Expired()
     {
-        effectPooler.ExpiredEffect(this.gameObject);
+        effectPooler.ExpiredTurretEffect(this.gameObject);
     }
 }

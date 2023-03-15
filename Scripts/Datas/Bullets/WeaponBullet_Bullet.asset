@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: WeaponBullet_Bullet
   m_EditorClassIdentifier: 
   weaponBulletName: Bullet
-  prefabPath: Bullets/Bullet
-  weaponBulletType: 1
+  prefabPath: Bullets/Turret_Bullet
+  turretBulletType: 1
   effectType: 1
   bulletLevels:
   - damage: 50

@@ -10,7 +10,7 @@ public class EnemyStat : MonoBehaviour
 
     [Header("Info")]
     public EnemyType enemyType;
-    public EffectType effectType;
+    public TurretEffectType enemytDeathEffect;
     [HideInInspector]
     public float startHp = 100f;
     [HideInInspector]
@@ -39,7 +39,7 @@ public class EnemyStat : MonoBehaviour
 
         if (hp <= 0 && !isDead)
         {
-            Die();
+           Die();
         }
 
     }
@@ -51,7 +51,7 @@ public class EnemyStat : MonoBehaviour
     {
         isDead= true;
 
-        GameObject deathEffect = effectPooler.GetEffect(effectType);
+        GameObject deathEffect = effectPooler.GetTurretEffect(enemytDeathEffect);
         deathEffect.transform.position = transform.position;
         deathEffect.transform.rotation = Quaternion.identity;
         deathEffect.SetActive(true);
@@ -59,5 +59,13 @@ public class EnemyStat : MonoBehaviour
         WaveSpawner.EnemiesAlive--;
 
         enemyPooler.ExpiredEnemy(gameObject);
+        EnemyInit();
     }
+
+    void EnemyInit()
+    {
+        isDead = false;
+        hp = startHp;
+    }
+
 }

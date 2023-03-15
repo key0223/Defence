@@ -12,13 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ced82d2205c6b848ad51c91b4919d63, type: 3}
   m_Name: Weapon_LaserBeamer
   m_EditorClassIdentifier: 
-  weaponName: weapon_laserBeamer
+  turretName: Weapon_LaserBeamer
   prefabPath: weapon_laserBeamer
   iconPath: Icon/weapon_laserBeamer
-  weaponType: 2
+  turretType: 2
+  turretDeathEffect: 4
   range: 10
   turnSpeed: 10
-  weaponBulletType: 2
+  turretBulletType: 2
   effectType: 0
   fireRate: 2
   useLaser: 1

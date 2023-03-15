@@ -9,17 +9,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0ced82d2205c6b848ad51c91b4919d63, type: 3}
-  m_Name: Weapon_Blaster
+  m_Script: {fileID: 11500000, guid: 212e3f3009f5f934490fcbb42c1d1012, type: 3}
+  m_Name: Enemy_Ufo_Red_Weapon
   m_EditorClassIdentifier: 
-  turretName: Weapon_Blaster
-  prefabPath: weapon_blaster
-  iconPath: Icon/weapon_blaster
-  turretType: 1
-  turretDeathEffect: 4
-  range: 8
-  turnSpeed: 10
-  turretBulletType: 1
-  effectType: 1
+  enemyName: enemy_ufoRedWeapon
+  prefabPath: enemy_ufoRedWeapon
+  enemyType: 4
+  deathEffect: 4
+  hp: 100
+  speed: 10
+  bulletEffect: 0
+  bullettype: 0
+  isAttackable: 1
+  range: 5
+  viewAngle: 50
+  turnSpeed: 5
   fireRate: 1
   useLaser: 0

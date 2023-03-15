@@ -8,6 +8,8 @@ public enum EnemyType
     ENEMY_UFO_GREEN,
     ENEMY_UFO_PURPLE,
     ENEMY_UFO_RED,
+    ENEMY_UFO_PURPLE_WEAPON,
+    ENEMY_UFO_RED_WEAPON,
     ENEMY_MAX,
 }
 public class EnemyPooler : MonoBehaviour
@@ -29,6 +31,8 @@ public class EnemyPooler : MonoBehaviour
         enemyQueue[(int)EnemyType.ENEMY_UFO_GREEN] = new Queue<GameObject>();
         enemyQueue[(int)EnemyType.ENEMY_UFO_PURPLE] = new Queue<GameObject>();
         enemyQueue[(int)EnemyType.ENEMY_UFO_RED] = new Queue<GameObject>();
+        enemyQueue[(int)EnemyType.ENEMY_UFO_PURPLE_WEAPON] = new Queue<GameObject>();
+        enemyQueue[(int)EnemyType.ENEMY_UFO_RED_WEAPON] = new Queue<GameObject>();
 
         GameObject[] go = new GameObject[enemyQueue.Length];
 
@@ -43,10 +47,21 @@ public class EnemyPooler : MonoBehaviour
 
                 EnemyStat enemyStat = enemyGo.GetComponent<EnemyStat>();
                 enemyStat.enemyType = enemyDatas[i].enemyType;
-                enemyStat.effectType = enemyDatas[i].effectType;
+                enemyStat.enemytDeathEffect = enemyDatas[i].deathEffect;
                 enemyStat.startHp = enemyDatas[i].hp;
                 enemyStat.startSpeed = enemyDatas[i].speed;
 
+                if (enemyDatas[i].isAttackable)
+                {
+                    EnemyAttackable enemyAttackable = enemyGo.GetComponent<EnemyAttackable>();
+
+                    enemyAttackable.range= enemyDatas[i].range;
+                    enemyAttackable.viewAngle= enemyDatas[i].viewAngle;
+                    enemyAttackable.turnSpeed = enemyDatas[i].turnSpeed;
+                    enemyAttackable.effectType = enemyDatas[i].bulletEffect;
+
+                    enemyAttackable.fireRate = enemyDatas[i].fireRate;
+                }
                 enemyGo.gameObject.SetActive(false);
                 enemyQueue[(int)enemyDatas[i].enemyType].Enqueue(enemyGo);
             }

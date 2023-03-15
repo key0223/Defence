@@ -5,12 +5,11 @@ using UnityEngine.EventSystems;
 
 public class Node : MonoBehaviour
 {
-
     BuildManager buildManager;
-    Weapon_Pooler weaponPooler;
+    TurretPooler turretPooler;
     EffectPooler effectPooler;
 
-    WeaponType currentWeaponType = WeaponType.WEAPON_NONE;
+    TurretType currentTurretType = TurretType.TURRET_NONE;
 
     public Color hoverColor;
     public Color startColor;
@@ -26,7 +25,7 @@ public class Node : MonoBehaviour
     private void Start()
     {
         buildManager = BuildManager.Instance;
-        weaponPooler = FindObjectOfType<Weapon_Pooler>();
+        turretPooler = FindObjectOfType<TurretPooler>();
         effectPooler = FindObjectOfType<EffectPooler>();
         rend = GetComponent<Renderer>();
         startColor = rend.materials[1].color;
@@ -38,7 +37,7 @@ public class Node : MonoBehaviour
     }
     void BuildTurret(ShopItem shopItem)
     {
-        if (currentWeaponType == WeaponType.WEAPON_NONE)
+        if (currentTurretType == TurretType.TURRET_NONE)
             return;
 
         if (PlayerStats.money < shopItem.cost)
@@ -48,7 +47,7 @@ public class Node : MonoBehaviour
         }
         PlayerStats.money -= shopItem.cost;
 
-        GameObject selectedGO = weaponPooler.GetWeapon(currentWeaponType);
+        GameObject selectedGO = turretPooler.GetTurret(currentTurretType);
         selectedGO.transform.position = GetBuildPosition();
         selectedGO.transform.rotation = Quaternion.identity;
         selectedGO.SetActive(true);
@@ -56,11 +55,12 @@ public class Node : MonoBehaviour
         turret = selectedGO;
         m_turret = selectedGO.GetComponent<Turret>();
 
-        GameObject effect = effectPooler.GetEffect(EffectType.EFFECT_BUILDTURRET);
+        GameObject effect = effectPooler.GetTurretEffect(TurretEffectType.TURRET_EFFECT_BUILDTURRET);
         effect.transform.position = GetBuildPosition();
         effect.transform.rotation = Quaternion.identity;
         effect.SetActive(true);
 
+       
         Debug.Log("Turret build! Money left: " + PlayerStats.money);
     }
 
@@ -68,14 +68,15 @@ public class Node : MonoBehaviour
     {
         PlayerStats.money += buildManager.GetTurretToBuild().GetSellAmount();
 
-        GameObject effect = effectPooler.GetEffect(EffectType.EFFECT_SELL);
+        GameObject effect = effectPooler.GetTurretEffect(TurretEffectType.TURRET_EFFECT_SELL);
         effect.transform.position = GetBuildPosition();
         effect.transform.rotation = Quaternion.identity;
         effect.SetActive(true);
 
-        weaponPooler.ExpiredTurret(turret);
+        turretPooler.ExpiredTurret(turret);
         turret = null;
     }
+
     public void UpgradeTurret()
     {
         ShopItem shopItem = buildManager.GetTurretToBuild();
@@ -90,10 +91,23 @@ public class Node : MonoBehaviour
         upgradedCount++;
         m_turret.upgradedCount = upgradedCount;
 
-        GameObject effect = effectPooler.GetEffect(EffectType.EFFECT_BUILDTURRET);
+        GameObject effect = effectPooler.GetTurretEffect(TurretEffectType.TURRET_EFFECT_BUILDTURRET);
         effect.transform.position = GetBuildPosition();
         effect.transform.rotation = Quaternion.identity;
         effect.SetActive(true);
+    }
+
+    public void DieTurret(GameObject _turret)
+    {
+        ShopItem shopItem = buildManager.GetTurretToBuild();
+        GameObject effect = effectPooler.GetTurretEffect(TurretEffectType.TURRET_EFFECT_ENEMYDEATH);
+        effect.transform.position = GetBuildPosition();
+        effect.transform.rotation = Quaternion.identity;
+        effect.SetActive(true);
+
+        turretPooler.ExpiredTurret(_turret);
+        turret = null;
+
     }
 
     private void OnMouseDown()
@@ -109,7 +123,7 @@ public class Node : MonoBehaviour
         if (!buildManager.CanBuild)
             return;
 
-        currentWeaponType = buildManager.GetTurretToBuild().weaponType;
+        currentTurretType = buildManager.GetTurretToBuild().turretType;
         BuildTurret(buildManager.GetTurretToBuild());
         
     }

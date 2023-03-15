@@ -15,6 +15,12 @@ MonoBehaviour:
   enemyName: enemy_ufoGreen
   prefabPath: enemy_ufoGreen
   enemyType: 0
-  effectType: 3
+  deathEffect: 4
   hp: 100
   speed: 10
+  bulletEffect: 0
+  isAttackable: 0
+  range: 0
+  turnSpeed: 0
+  fireRate: 0
+  useLaser: 0

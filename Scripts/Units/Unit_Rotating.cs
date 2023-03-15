@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Unit_Rotating : MonoBehaviour
 {
-    WeaponType weaponType;
+    TurretType turretType;
     public GameObject target { get; set; }
 
     public Transform partToRotate;

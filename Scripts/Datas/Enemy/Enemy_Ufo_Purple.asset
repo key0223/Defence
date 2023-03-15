@@ -15,6 +15,12 @@ MonoBehaviour:
   enemyName: enemy_ufoPurple
   prefabPath: enemy_ufoPurple
   enemyType: 1
-  effectType: 4
+  deathEffect: 4
   hp: 50
   speed: 20
+  bulletEffect: 0
+  isAttackable: 0
+  range: 0
+  turnSpeed: 0
+  fireRate: 0
+  useLaser: 0

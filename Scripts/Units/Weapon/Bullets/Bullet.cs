@@ -3,39 +3,63 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class Bullet : MonoBehaviour
+public abstract class Bullet : MonoBehaviour
 {
-    EnemyPooler enemyPooler;
-    WeaponBullet_Pooler weaponBullet_Pooler;
-    EffectPooler effectPooler;
+    //EnemyPooler enemyPooler;
+    protected BulletPooler bulletPooler;
+    protected EffectPooler effectPooler;
 
     public Transform firePoint;
 
-    public WeaponBulletType weaponBulletType;
-    public EffectType effectType;
+   
 
-    private GameObject target;
-    private GameObject effect;
+    protected GameObject target;
+    protected GameObject effect;
+
     public float damage;
     public float speed;
     public float explosionRadius;
 
-    private void Awake()
+    protected float bulletTime = 3f;
+
+    
+
+    protected void Awake()
     {
-        enemyPooler = FindObjectOfType<EnemyPooler>();
-        weaponBullet_Pooler = FindObjectOfType<WeaponBullet_Pooler>();
+        //enemyPooler = FindObjectOfType<EnemyPooler>();
+        bulletPooler = FindObjectOfType<BulletPooler>();
         effectPooler = FindObjectOfType<EffectPooler>();
     }
+
+    /*
+    protected void OnEnable()
+    {
+        StartCoroutine(bulletTimeOver());
+    }
+
+    protected IEnumerator bulletTimeOver()
+    {
+        float timer =+ Time.deltaTime;
+
+        if(timer>= bulletTime)
+        {
+            bulletPooler.ExpiredTurretBullet(gameObject);
+        }
+        yield return null;
+    }
+    */
     public void Seek(GameObject _target)
     {
         target = _target;
     }
 
-    private void Update()
+    /*
+    protected void Update()
     {
+
         if (target == null)
         {
-            weaponBullet_Pooler.ExpiredBullet(gameObject);
+            bulletPooler.ExpiredTurretBullet(gameObject);
             return;
         }
 
@@ -51,49 +75,14 @@ public class Bullet : MonoBehaviour
         transform.Translate(dir.normalized * distanceThisFrame, Space.World);
         transform.LookAt(target.transform);
     }
+    */
 
+    protected abstract void HitTarget();
 
-    void HitTarget()
-    {
-        if(effect== null)
-        {
-            effect = effectPooler.GetEffect(effectType);
-            effect.SetActive(true);
-            effect.transform.position = transform.position;
-            effect.transform.rotation = transform.rotation;
-        }
+    protected abstract void Explode();
 
-        if (explosionRadius > 0f)
-        {
-            Explode();
-        }
-        else
-        {
-            Damage(target);
-        }
-        weaponBullet_Pooler.ExpiredBullet(gameObject);
+    protected abstract void Damage(GameObject enemy);
 
-    }
-    void Explode()
-    {
-        Collider[] colliders = Physics.OverlapSphere(transform.position, explosionRadius);
-        foreach (Collider collider in colliders)
-        {
-            if (collider.CompareTag("Enemy"))
-            {
-                Damage(collider.gameObject);
-            }
-        }
-    }
-
-    void Damage(GameObject enemy)
-    {
-        EnemyStat enemyStat = enemy.GetComponent<EnemyStat>();
-        if (enemyStat != null)
-        {
-            enemyStat.TakeDamege(damage);
-        }
-    }
 
     private void OnDrawGizmosSelected()
     {

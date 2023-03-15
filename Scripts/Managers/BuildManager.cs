@@ -5,13 +5,14 @@ using UnityEngine;
 public class BuildManager : MonoBehaviour
 {
     public static BuildManager Instance;
-    Weapon_Pooler weaponPooler;
+    TurretPooler turretPooler;
     EffectPooler effectPooler;
     NodeUI nodeUI;
 
     ShopItem shopItem;
     Node selectedNode;
-    WeaponType currentWeaponType;
+    TurretType currentTurretType;
+    public TurretType CurrentTurretType { get; set; }
 
 
     private GameObject turretToBuild;
@@ -26,13 +27,13 @@ public class BuildManager : MonoBehaviour
         else
             Destroy(Instance);
 
-        weaponPooler = FindObjectOfType<Weapon_Pooler>();
+        turretPooler = FindObjectOfType<TurretPooler>();
         effectPooler = FindObjectOfType<EffectPooler>();
         nodeUI = FindObjectOfType<NodeUI>();
-        currentWeaponType = WeaponType.WEAPON_NONE;
+        currentTurretType = TurretType.TURRET_NONE;
     }
 
-    public bool CanBuild { get { return currentWeaponType != WeaponType.WEAPON_NONE; } }
+    public bool CanBuild { get { return currentTurretType != TurretType.TURRET_NONE; } }
     public bool HasMoney { get { return PlayerStats.money >= shopItem.cost; } }
 
     /*
@@ -47,14 +48,14 @@ public class BuildManager : MonoBehaviour
             return;
         }
         PlayerStats.money -= shopItem.cost;
-        GameObject selectedGO = weaponPooler.GetWeapon(currentWeaponType);
+        GameObject selectedGO = turretPooler.GetTurret(currentWeaponType);
         selectedGO.transform.position = node.GetBuildPosition();
         selectedGO.transform.rotation = Quaternion.identity;
         selectedGO.SetActive(true);
 
         node.turret = selectedGO;
 
-        GameObject effect = effectPooler.GetEffect(EffectType.EFFECT_BUILDTURRET);
+        GameObject effect = effectPooler.GetTurretEffect(TurretEffectType.TURRET_EFFECT_BUILDTURRET);
         effect.transform.position = node.GetBuildPosition();
         effect.transform.rotation = Quaternion.identity;
         effect.SetActive(true);
@@ -83,7 +84,7 @@ public class BuildManager : MonoBehaviour
     public void SetTurretToBuild(ShopItem shopItem)
     {
         this.shopItem = shopItem;
-        currentWeaponType = shopItem.weaponType;
+        currentTurretType = shopItem.turretType;
 
         DeselectNode();
     }

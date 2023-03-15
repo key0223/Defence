@@ -11,7 +11,7 @@ public class ShopItem : MonoBehaviour
     Shop shop;
 
     [SerializeField]
-    public WeaponType weaponType;
+    public TurretType turretType;
     [SerializeField]
     public int cost;
     [SerializeField]

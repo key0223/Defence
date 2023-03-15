@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: WeaponBullet_Arrow
   m_EditorClassIdentifier: 
   weaponBulletName: arrow
-  prefabPath: Bullets/arrow
+  prefabPath: Bullets/Turret_Arrow
   weaponBulletType: 0
   effectType: 0
   bulletLevels:
